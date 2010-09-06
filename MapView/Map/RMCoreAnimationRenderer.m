@@ -170,16 +170,9 @@
     }
 }
     
-- (void)drawLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext {
-    if ([[content.mapView delegate] respondsToSelector:@selector(drawTileLayer:inContext:)]) {
-        [[content.mapView delegate] drawTileLayer:aLayer inContext:aContext];
-    } else {
-        UIImage* layerImage = [aLayer valueForKey:@"image"];
-        CGRect boundBox = CGContextGetClipBoundingBox(aContext);
-        CGContextScaleCTM(aContext, 1.0, -1.0);
-        CGContextTranslateCTM(aContext, 0.0, -boundBox.size.height);
-        CGContextDrawImage(aContext, boundBox, layerImage.CGImage);
-    }
+- (void)drawLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext 
+{
+    [content.mapView drawTileLayer:aLayer inContext:aContext];
 }
 
 /*

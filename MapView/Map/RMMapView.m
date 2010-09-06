@@ -196,6 +196,8 @@
    	_delegateHasDidDragMarker = [(NSObject*) delegate respondsToSelector: @selector(mapView: didDragMarker: withEvent:)];
 	
 	_delegateHasDragMarkerPosition = [(NSObject*) delegate respondsToSelector: @selector(dragMarkerPosition: onMap: position:)];
+    
+    _delegateHasDrawTileLayerInContext = [(NSObject*) delegate respondsToSelector: @selector(drawTileLayer: inContext:)];
 }
 
 - (id<RMMapViewDelegate>) delegate
@@ -245,6 +247,20 @@
 		[delegate afterMapZoom: self byFactor: zoomFactor near: p];
 }
 
+
+#pragma mark drawTileLayer calback methods
+
+- (void)drawTileLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext {
+    if (_delegateHasDrawTileLayerInContext) {
+        [delegate drawTileLayer:aLayer inContext:aContext];
+    } else {
+        UIImage* layerImage = [aLayer valueForKey:@"image"];
+        CGRect boundBox = CGContextGetClipBoundingBox(aContext);
+        CGContextScaleCTM(aContext, 1.0, -1.0);
+        CGContextTranslateCTM(aContext, 0.0, -boundBox.size.height);
+        CGContextDrawImage(aContext, boundBox, layerImage.CGImage);
+    }
+}
 
 #pragma mark Event handling
 

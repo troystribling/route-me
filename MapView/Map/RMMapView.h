@@ -146,6 +146,7 @@ typedef struct {
 	BOOL _delegateHasShouldDragMarker;
 	BOOL _delegateHasDidDragMarker;
 	BOOL _delegateHasDragMarkerPosition;
+    BOOL _delegateHasDrawTileLayerInContext;
 	
 	NSTimer *_decelerationTimer;
 	CGSize _decelerationDelta;
@@ -187,5 +188,7 @@ typedef struct {
 
 - (void)setRotation:(CGFloat)angle;
 - (void)setNeedsDisplay;
+
+- (void)drawTileLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext;
 
 @end

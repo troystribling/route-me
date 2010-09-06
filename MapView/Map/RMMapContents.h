@@ -59,6 +59,7 @@ enum {
 @class RMMapLayer;
 @class RMLayerCollection;
 @class RMMarker;
+@class RMMapView;
 @protocol RMMercatorToTileProjection;
 @protocol RMTileSource;
 
@@ -85,7 +86,8 @@ enum {
 	/// This is the underlying UIView's layer.
 	CALayer *layer;
 	
-	RMMarkerManager *markerManager;
+	RMMapView* mapView;    
+    RMMarkerManager *markerManager;
 	/// subview for the image displayed while tiles are loading. Set its contents by providing your own "loading.png".
 	RMMapLayer *background;
 	/// subview for markers and paths
@@ -139,6 +141,7 @@ enum {
 @property (retain, readwrite) RMMapRenderer *renderer;
 
 @property (readonly)  CALayer *layer;
+@property (nonatomic, retain) RMMapView* mapView;
 
 @property (retain, readwrite) RMMapLayer *background;
 @property (retain, readwrite) RMLayerCollection *overlay;
@@ -223,6 +226,7 @@ enum {
 
 - (void) tilesUpdatedRegion:(CGRect)region;
 - (void)setNeedsDisplay;
+- (RMMapView*)mapView;
 
 /*! \brief Clear all images from the #tileSource's caching system.
  

@@ -32,6 +32,8 @@
 #import "RMPixel.h"
 #import "RMTileImage.h"
 #import "RMTileImageSet.h"
+#import "RMMapContents.h"
+#import "RMMapView.h"
 
 @implementation RMCoreAnimationRenderer
 
@@ -167,18 +169,15 @@
         [tile setNeedsDisplay];
     }
 }
-
+    
 - (void)drawLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext {
-    UIImage* overlayImage = [UIImage imageNamed:@"parchment.png"];
-    UIImage* layerImage = [aLayer valueForKey:@"image"];
-    CGRect boundBox = CGContextGetClipBoundingBox(aContext);
-    CGContextScaleCTM(aContext, 1.0, -1.0);
-    CGContextTranslateCTM(aContext, 0.0, -boundBox.size.height);
-    if (overlayImage) {
-        CGContextDrawImage(aContext, boundBox, overlayImage.CGImage);
-        CGContextSetBlendMode(aContext, kCGBlendModeOverlay);
-        CGContextDrawImage(aContext, boundBox, layerImage.CGImage);
+    if ([[content.mapView delegate] respondsToSelector:@selector(drawTileLayer:inContext:)]) {
+        [[content.mapView delegate] drawTileLayer:aLayer inContext:aContext];
     } else {
+        UIImage* layerImage = [aLayer valueForKey:@"image"];
+        CGRect boundBox = CGContextGetClipBoundingBox(aContext);
+        CGContextScaleCTM(aContext, 1.0, -1.0);
+        CGContextTranslateCTM(aContext, 0.0, -boundBox.size.height);
         CGContextDrawImage(aContext, boundBox, layerImage.CGImage);
     }
 }

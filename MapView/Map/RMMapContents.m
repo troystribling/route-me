@@ -64,6 +64,7 @@
 @synthesize minZoom;
 @synthesize maxZoom;
 @synthesize markerManager;
+@synthesize mapView;
 
 #pragma mark --- begin constants ----
 #define kZoomAnimationStepTime 0.03f
@@ -122,7 +123,8 @@
 	NSAssert1([newView isKindOfClass:[RMMapView class]], @"view %@ must be a subclass of RMMapView", newView);
 	[(RMMapView *)newView setContents:self];
     
-	tileSource = nil;
+	mapView = (RMMapView *)newView;
+    tileSource = nil;
 	projection = nil;
 	mercatorToTileProjection = nil;
 	renderer = nil;

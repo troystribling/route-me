@@ -1011,7 +1011,7 @@ static BOOL _performExpensiveOperations = YES;
 
 - (void) tilesUpdatedRegion:(CGRect)region
 {
-	if(delegateHasRegionUpdate)
+    if(delegateHasRegionUpdate)
 	{
 		RMSphericalTrapezium locationBounds  = [self latitudeLongitudeBoundingBoxFor:region];
 		[tilesUpdateDelegate regionUpdate:locationBounds];

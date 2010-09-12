@@ -142,7 +142,7 @@
 	loadedBounds = newLoadedBounds;
 	loadedZoom = newTileRect.origin.tile.zoom;
 	loadedTiles = newTileRect;
-	
+	[content.renderer setNeedsDisplay];
 	[content tilesUpdatedRegion:newLoadedBounds];
 	
 } 

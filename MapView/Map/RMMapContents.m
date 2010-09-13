@@ -141,12 +141,12 @@
         [self setMaxZoom:maxZoomLevel];
 
 	[self setTileSource:newTilesource];
-	[self setRenderer: [[[RMCoreAnimationRenderer alloc] initWithContent:self] autorelease]];
+	[self setRenderer: [[[RMCoreAnimationRenderer alloc] initWithContents:self] autorelease]];
 	
 	imagesOnScreen = [[RMTileImageSet alloc] initWithDelegate:renderer];
 	[imagesOnScreen setTileSource:tileSource];
 
-	tileLoader = [[RMTileLoader alloc] initWithContent:self];
+	tileLoader = [[RMTileLoader alloc] initWithContents:self];
 	[tileLoader setSuppressLoading:YES];
 
 	[self setZoom:initialZoomLevel];
@@ -191,7 +191,7 @@
 	WarnDeprecated();
 	LogMethod();
 	id<RMTileSource> _tileSource = [[RMOpenStreetMapSource alloc] init];
-	RMMapRenderer *_renderer = [[RMCoreAnimationRenderer alloc] initWithContent:self];
+	RMMapRenderer *_renderer = [[RMCoreAnimationRenderer alloc] initWithContents:self];
 	
 	id mapContents = [self initForView:view WithTileSource:_tileSource WithRenderer:_renderer LookingAt:latlong];
 	[_tileSource release];
@@ -231,7 +231,7 @@
 	imagesOnScreen = [[RMTileImageSet alloc] initWithDelegate:renderer];
 	[imagesOnScreen setTileSource:tileSource];
 
-	tileLoader = [[RMTileLoader alloc] initWithContent:self];
+	tileLoader = [[RMTileLoader alloc] initWithContents:self];
 	[tileLoader setSuppressLoading:YES];
 	
 	[self setMinZoom:kDefaultMinimumZoomLevel];
@@ -602,7 +602,7 @@
 	if (tileSource == newTileSource)
 		return;
 	
-	RMCachedTileSource *newCachedTileSource = [RMCachedTileSource cachedTileSourceWithSource:newTileSource];
+	RMCachedTileSource *newCachedTileSource = [RMCachedTileSource cachedTileSourceWithSource:newTileSource forContents:self];
 
 	newCachedTileSource = [newCachedTileSource retain];
 	[tileSource release];

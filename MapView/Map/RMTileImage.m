@@ -136,6 +136,10 @@
 //	[self animateIn];
 }
 
+- (UIImage*)rawImage {
+    return (UIImage*)[layer valueForKey:@"image"];
+}
+
 - (BOOL)isLoaded
 {
 	return (layer != nil && layer.contents != NULL);

@@ -27,6 +27,7 @@
 
 #import <UIKit/UIKit.h>
 #import "RMTileCache.h"
+#import "RMTileSource.h"
 
 @class RMTileCacheDAO;
 
@@ -34,14 +35,16 @@
 	NSString* databasePath;
 	RMTileCacheDAO *dao;
 	RMCachePurgeStrategy purgeStrategy;
+    id<RMTileSource> tileSource;
 	NSUInteger capacity;
 	NSUInteger minimalPurge;
 }
 
 @property (retain) NSString* databasePath;
+@property (nonatomic, assign) id<RMTileSource> tileSource;
 
 + (NSString*)dbPathForTileSource: (id<RMTileSource>) source usingCacheDir: (BOOL) useCacheDir;
--(id) initWithDatabase: (NSString*)path;
+-(id) initWithDatabase: (NSString*)path forTileSource: (id<RMTileSource>) source;
 -(id) initWithTileSource: (id<RMTileSource>) source usingCacheDir: (BOOL) useCacheDir;
 
 -(void) setPurgeStrategy: (RMCachePurgeStrategy) theStrategy;

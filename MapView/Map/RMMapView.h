@@ -147,6 +147,7 @@ typedef struct {
 	BOOL _delegateHasDidDragMarker;
 	BOOL _delegateHasDragMarkerPosition;
     BOOL _delegateHasDrawTileLayerInContext;
+    BOOL _delegateHasWillSaveTileImage;
 	
 	NSTimer *_decelerationTimer;
 	CGSize _decelerationDelta;
@@ -190,5 +191,6 @@ typedef struct {
 - (void)setNeedsDisplay;
 
 - (void)drawTileLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext;
+- (UIImage*)willSaveTileImage:(UIImage*)tileImage;
 
 @end

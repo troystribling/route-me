@@ -32,12 +32,12 @@
 @implementation RMMapRenderer
 
 // Designated initialiser
-- (id) initWithContent: (RMMapContents *)_contents
+- (id) initWithContents: (RMMapContents *)_contents
 {
 	if (![super init])
 		return nil;
 
-	content = _contents;
+	contents = [_contents retain];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mapImageLoaded:) name:RMMapImageLoadedNotification object:nil];
 	
@@ -59,7 +59,6 @@
 /// \bug calls a no-op
 -(void)mapImageLoaded: (NSNotification*)notification
 {
-	[self setNeedsDisplay];
 }
 
 /// \bug no-op

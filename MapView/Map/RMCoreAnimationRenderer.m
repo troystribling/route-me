@@ -37,9 +37,9 @@
 
 @implementation RMCoreAnimationRenderer
 
-- (id) initWithContent: (RMMapContents *)_contents
+- (id) initWithContents: (RMMapContents *)_contents
 {
-	if (![super initWithContent:_contents])
+	if (![super initWithContents:_contents])
 		return nil;
 	
 	// NOTE: RMMapContents may still be initialising when this function
@@ -50,7 +50,7 @@
 	layer.anchorPoint = CGPointZero;
 	layer.masksToBounds = YES;
 	// If the frame is set incorrectly here, it will be fixed when setRenderer is called in RMMapContents
-	layer.frame = [content screenBounds];
+	layer.frame = [contents screenBounds];
 	
 	NSMutableDictionary *customActions = [NSMutableDictionary dictionaryWithDictionary:[layer actions]];
 	[customActions setObject:[NSNull null] forKey:@"sublayers"];
@@ -73,6 +73,7 @@
 /// \bug this is a no-op
 -(void)mapImageLoaded: (NSNotification*)notification
 {
+//	RMTileImage *img = (RMTileImage *)[notification object];
 }
 
 - (id<CAAction>)actionForLayer:(CALayer *)theLayer
@@ -155,7 +156,7 @@
 
 - (void)setFrame:(CGRect)frame
 {
-	layer.frame = [content screenBounds];
+	layer.frame = [contents screenBounds];
 }
 
 - (CALayer*) layer
@@ -172,7 +173,7 @@
     
 - (void)drawLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext 
 {
-    [content.mapView drawTileLayer:aLayer inContext:aContext];
+    [contents.mapView drawTileLayer:aLayer inContext:aContext];
 }
 
 /*

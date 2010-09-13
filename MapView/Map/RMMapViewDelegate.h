@@ -56,4 +56,6 @@
 
 - (void)drawTileLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext;
 
+- (UIImage*)willSaveTileImage:(UIImage*)tileImage;
+
 @end

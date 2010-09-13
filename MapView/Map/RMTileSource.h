@@ -40,6 +40,8 @@
 
 @protocol RMTileSource <NSObject>
 
+@required
+
 -(RMTileImage *) tileImage: (RMTile) tile;
 -(NSString *) tileURL: (RMTile) tile;
 -(NSString *) tileFile: (RMTile) tile;
@@ -68,5 +70,9 @@
  \bug This method belongs on RMCachedTileSource, not on RMTileSource, because an RMTileSource doesn't have a cache.
  */
 -(void)removeAllCachedImages;
+
+@optional
+
+- (UIImage*)willSaveTileImage:(UIImage*)tileImage;
 
 @end

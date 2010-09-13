@@ -42,13 +42,13 @@
 
 -(id) init
 {
-	if (![self initWithContent: nil])
+	if (![self initWithContents: nil])
 		return nil;
 	
 	return self;
 }
 
--(id) initWithContent: (RMMapContents *)_contents
+-(id) initWithContents: (RMMapContents *)_contents
 {
 	if (![super init])
 		return nil;

@@ -25,6 +25,7 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+#import "RMMapContents.h"
 #import "RMDatabaseCache.h"
 #import "RMTileCacheDAO.h"
 #import "RMTileImage.h"
@@ -33,6 +34,7 @@
 @implementation RMDatabaseCache
 
 @synthesize databasePath;
+@synthesize tileSource;
 
 + (NSString*)dbPathForTileSource: (id<RMTileSource>) source usingCacheDir: (BOOL) useCacheDir
 {
@@ -62,13 +64,14 @@
 	return nil;
 }
 
--(id) initWithDatabase: (NSString*)path
+-(id) initWithDatabase: (NSString*)path forTileSource: (id<RMTileSource>) source
 {
 	if (![super init])
 		return nil;
 	
 	
-	self.databasePath = path;
+	self.tileSource = source;
+    self.databasePath = path;
 	dao = [[RMTileCacheDAO alloc] initWithDatabase:path];
 
 	if (dao == nil)
@@ -79,7 +82,7 @@
 
 -(id) initWithTileSource: (id<RMTileSource>) source usingCacheDir: (BOOL) useCacheDir
 {
-	return [self initWithDatabase:[RMDatabaseCache dbPathForTileSource:source usingCacheDir: useCacheDir]];
+	return [self initWithDatabase:[RMDatabaseCache dbPathForTileSource:source usingCacheDir: useCacheDir] forTileSource:source];
 }
 
 -(void) dealloc
@@ -115,9 +118,15 @@
 
 -(void) addImageData: (NSNotification *)notification
 {
-	NSData *data = [[notification userInfo] objectForKey:@"data"];
-	/// \bug magic string literals
+	NSData *data = [[notification userInfo] objectForKey:@"data"];    
 	RMTileImage *image = (RMTileImage*)[notification object];
+    if ([tileSource respondsToSelector: @selector(willSaveTileImage:)]) {
+        UIImage* newImage = [tileSource willSaveTileImage:[UIImage imageWithData:data]];
+        if (newImage) {
+            data = UIImageJPEGRepresentation(newImage, 0.3);
+            [image updateImageUsingImage:newImage];
+        }
+    }
 	
 	@synchronized (self) {
 
@@ -129,11 +138,12 @@
 		}
 	
 		[dao addData:data LastUsed:[image lastUsedTime] ForTile:RMTileKey([image tile])];
+        [image setNeedsDisplay];
 	}
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self
-													name:RMMapImageLoadedNotification
-												  object:image];
+                                                name:RMMapImageLoadedNotification
+                                                object:image];
 	
 	
 //	RMLog(@"%d items in DB", [dao count]);

@@ -74,6 +74,7 @@ typedef NSImage UIImage;
 
 - (void)updateImageUsingData: (NSData*) data;
 - (void)updateImageUsingImage: (UIImage*) image;
+- (UIImage*)rawImage;
 
 - (void)touch;
 

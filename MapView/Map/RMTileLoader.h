@@ -47,7 +47,7 @@
 }
 
 /// Designated initialiser
-- (id)initWithContent: (RMMapContents *)contents;
+- (id)initWithContents: (RMMapContents *)contents;
 
 - (void)updateLoadedImages;
 

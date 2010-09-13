@@ -30,19 +30,23 @@
 #import "RMTileSource.h"
 
 @class RMTileCache;
+@class RMMapContents;
 
 /// Simple wrapper around a tilesource which checks the image cache first.
 @interface RMCachedTileSource : NSObject<RMTileSource>
 {
 	id <RMTileSource> tileSource;
 	RMTileCache *cache;
+    RMMapContents *contents;
 }
 
-- (id) initWithSource: (id<RMTileSource>) source;
+@property (nonatomic, retain) RMMapContents *contents;
+
+- (id) initWithSource: (id<RMTileSource>) source forContents: (RMMapContents*) _contents;
 - (void) didReceiveMemoryWarning;
 
 /// Bleah ugly name.
-+ (RMCachedTileSource*) cachedTileSourceWithSource: (id<RMTileSource>) source;
++ (RMCachedTileSource*) cachedTileSourceWithSource: (id<RMTileSource>) source forContents: (RMMapContents*) _contents;
 
 - (id<RMTileSource>) underlyingTileSource;
 

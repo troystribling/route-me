@@ -198,6 +198,7 @@
 	_delegateHasDragMarkerPosition = [(NSObject*) delegate respondsToSelector: @selector(dragMarkerPosition: onMap: position:)];
     
     _delegateHasDrawTileLayerInContext = [(NSObject*) delegate respondsToSelector: @selector(drawTileLayer: inContext:)];
+    _delegateHasWillSaveTileImage = [(NSObject*) delegate respondsToSelector: @selector(willSaveTileImage:)];
 }
 
 - (id<RMMapViewDelegate>) delegate
@@ -248,7 +249,7 @@
 }
 
 
-#pragma mark drawTileLayer calback methods
+#pragma mark TileLayer calback methods
 
 - (void)drawTileLayer:(CALayer*)aLayer inContext:(CGContextRef)aContext {
     if (_delegateHasDrawTileLayerInContext) {
@@ -259,6 +260,15 @@
         CGContextScaleCTM(aContext, 1.0, -1.0);
         CGContextTranslateCTM(aContext, 0.0, -boundBox.size.height);
         CGContextDrawImage(aContext, boundBox, layerImage.CGImage);
+    }
+}
+
+- (UIImage*)willSaveTileImage:(UIImage*)tileImage {
+    if (_delegateHasWillSaveTileImage) { 
+        UIImage* img = [delegate willSaveTileImage:tileImage];
+        return img;
+    } else {
+        return nil;
     }
 }
 

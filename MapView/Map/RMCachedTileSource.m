@@ -27,10 +27,13 @@
 
 #import "RMCachedTileSource.h"
 #import "RMTileCache.h"
+#import "RMMapContents.h"
 
 @implementation RMCachedTileSource
 
-- (id) initWithSource: (id<RMTileSource>) _source
+@synthesize contents;
+
+- (id) initWithSource: (id<RMTileSource>) _source forContents: (RMMapContents*) _contents
 {
 	if ([_source isKindOfClass:[RMCachedTileSource class]])
 	{
@@ -41,9 +44,9 @@
 	if (![super init])
 		return nil;
 	
-	tileSource = [_source retain];
-	
-	cache = [[RMTileCache alloc] initWithTileSource:tileSource];
+	tileSource = [_source retain];	
+    contents = _contents;
+	cache = [[RMTileCache alloc] initWithTileSource:self];
 	
 	return self;
 }
@@ -55,11 +58,11 @@
 	[super dealloc];
 }
 
-+ (RMCachedTileSource*) cachedTileSourceWithSource: (id<RMTileSource>) source
++ (RMCachedTileSource*) cachedTileSourceWithSource: (id<RMTileSource>) source forContents: (RMMapContents*) _contents
 {
 	// Doing this fixes a strange build warning...
 	id theSource = source;
-	return [[[RMCachedTileSource alloc] initWithSource:theSource] autorelease];
+	return [[[RMCachedTileSource alloc] initWithSource:theSource forContents: (RMMapContents*) _contents] autorelease];
 }
 
 -(RMTileImage *) tileImage: (RMTile) tile
@@ -165,6 +168,11 @@
 -(void) removeAllCachedImages
 {
 	[cache removeAllCachedImages];
+}
+
+- (UIImage*)willSaveTileImage:(UIImage*)tileImage {
+    UIImage* img = [contents.mapView willSaveTileImage:tileImage];
+    return img;
 }
 
 @end

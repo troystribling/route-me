@@ -38,10 +38,10 @@
 
 @interface RMMapRenderer : NSObject
 {
-	RMMapContents *content;
+	RMMapContents *contents;
 }
 
-- (id)initWithContent:(RMMapContents *)contents;
+- (id)initWithContents:(RMMapContents *)_contents;
 - (void)setNeedsDisplay;
 - (void)drawRect:(CGRect)rect;
 - (void)setFrame:(CGRect)frame;

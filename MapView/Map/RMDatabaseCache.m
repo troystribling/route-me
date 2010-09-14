@@ -123,7 +123,8 @@
     if ([tileSource respondsToSelector: @selector(willSaveTileImage:)]) {
         UIImage* newImage = [tileSource willSaveTileImage:[UIImage imageWithData:data]];
         if (newImage) {
-            data = UIImageJPEGRepresentation(newImage, 0.3);
+//            data = UIImageJPEGRepresentation(newImage, 0.4);
+            data = UIImagePNGRepresentation(newImage);
             [image updateImageUsingImage:newImage];
         }
     }

@@ -70,7 +70,7 @@
 	LogMethod();
 
 	enableDragging = YES;
-	enableZoom = YES;
+	enableZoom = NO;
 	enableRotate = NO;
 	decelerationFactor = kDefaultDecelerationFactor;
 	deceleration = NO;
